@@ -917,7 +917,7 @@ sysctl(mib, 2, &numcpu, &len, NULL, 0);
   numcpu = sysinfo.dwNumberOfProcessors;
 #endif
 
-	commandlineInput.numThreads = numcpu;
+	commandlineInput.numThreads = numcpu + 1;
 	commandlineInput.numThreads = std::min(std::max(commandlineInput.numThreads, 1), 4);
 	xptMiner_parseCommandline(argc, argv);
 	minerSettings.protoshareMemoryMode = commandlineInput.ptsMemoryMode;
