@@ -25,7 +25,7 @@ volatile uint32 total3ChainCount = 0;
 volatile uint32 total4ChainCount = 0;
 
 
-typedef struct  
+typedef struct
 {
 	char* workername;
 	char* workerpass;
@@ -44,7 +44,7 @@ typedef struct
 commandlineInput_t commandlineInput;
 
 
-struct  
+struct
 {
 	CRITICAL_SECTION cs_work;
 	uint32	algorithm;
@@ -293,9 +293,9 @@ void *xptMiner_minerThread(void *arg)
 		minerProtosharesBlock_t minerProtosharesBlock;
 		minerScryptBlock_t minerScryptBlock;
 		minerMetiscoinBlock_t minerMetiscoinBlock;
-		minerPrimecoinBlock_t minerPrimecoinBlock; 
-		minerMaxcoinBlock_t minerMaxcoinBlock; 
-		minerRiecoinBlock_t minerRiecoinBlock; 
+		minerPrimecoinBlock_t minerPrimecoinBlock;
+		minerMaxcoinBlock_t minerMaxcoinBlock;
+		minerRiecoinBlock_t minerRiecoinBlock;
 	};
 	while( true )
 	{
@@ -536,7 +536,7 @@ void xptMiner_getWorkFromXPTConnection(xptClient_t* xptClient)
 	// get hashes
 	if( xptClient->blockWorkInfo.txHashCount > MAX_TRANSACTIONS )
 	{
-		printf("Too many transaction hashes\n"); 
+		printf("Too many transaction hashes\n");
 		workDataSource.txHashCount = 0;
 	}
 	else
@@ -698,7 +698,7 @@ void xptMiner_xptQueryWorkLoop()
 	if(minerSettings.requestTarget.donationPercent > 0.1f)
 	{
 	  float donAmount = minerSettings.requestTarget.donationPercent;
-	  if (donAmount > 1.5) { 
+	  if (donAmount > 1.5) {
 	    donAmount -= 0.5f;
 	    xptClient_addDeveloperFeeEntry(xptClient, "RDrQYV7VHbnzUDX8BmcjoradKGVQaBcXXi", getFeeFromDouble(0.25f), false);  // jh00
 	    xptClient_addDeveloperFeeEntry(xptClient, "RNh5PSLpPmkNxB3PgoLnKzpM75rmkzfz5y", getFeeFromDouble(0.25f), false);  // clintar, windows port
@@ -744,7 +744,7 @@ void xptMiner_printHelp()
 void xptMiner_parseCommandline(int argc, char **argv)
 {
 	sint32 cIdx = 1;
-	commandlineInput.donationPercent = 2.0f;
+	commandlineInput.donationPercent = 0.5f;
 	commandlineInput.sieveMax = 500000000;
 	while( cIdx < argc )
 	{
@@ -863,7 +863,7 @@ void xptMiner_parseCommandline(int argc, char **argv)
 		}
 		else
 		{
-			printf("'%s' is an unknown option.\nType jhPrimeminer.exe --help for more info\n", argument); 
+			printf("'%s' is an unknown option.\nType jhPrimeminer.exe --help for more info\n", argument);
 			exit(-1);
 		}
 	}
@@ -883,10 +883,10 @@ int main(int argc, char** argv)
 	commandlineInput.port = 8080 + (rand()%8); // use random port between 8080 and 8087
 	commandlineInput.ptsMemoryMode = PROTOSHARE_MEM_256;
 	commandlineInput.useGPU = false;
-  uint32_t numcpu = 1; // in case we fall through;	
+  uint32_t numcpu = 1; // in case we fall through;
 #if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
   int mib[4];
-  size_t len = sizeof(numcpu); 
+  size_t len = sizeof(numcpu);
 
   /* set the mib for hw.ncpu */
   mib[0] = CTL_HW;
@@ -934,7 +934,7 @@ sysctl(mib, 2, &numcpu, &len, NULL, 0);
 	if( commandlineInput.useGPU )
 		printf("Using GPU if possible\n");
 	printf("Using %d threads\n", commandlineInput.numThreads);
-	
+
 	printf("\nFee Percentage:  %.2f%%. To set, use \"-d\" flag e.g. \"-d 2.5\" is 2.5%% donation\n\n", commandlineInput.donationPercent);
 #ifdef _WIN32
 	// set priority to below normal
@@ -970,7 +970,7 @@ sysctl(mib, 2, &numcpu, &len, NULL, 0);
 	minerSettings.requestTarget.donationPercent = commandlineInput.donationPercent;
 	// start miner threads
 #ifndef _WIN32
-	
+
 	pthread_t threads[commandlineInput.numThreads];
 	pthread_attr_t threadAttr;
 	pthread_attr_init(&threadAttr);
